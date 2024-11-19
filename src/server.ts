@@ -1,9 +1,21 @@
-const mongoose = require('mongoose');
 
+import express, { Application } from 'express'
+// import app from "./app";
+import  confiq  from "./app/confiq";
+
+import mongoose from 'mongoose';
+const app :Application = express()
 async function main() {
-    await mongoose.connect('mongodb://127.0.0.1:27017/test');
+    
+  try{
+    await mongoose.connect(confiq.database_url as string);
+    app.listen(confiq.port, () => {
+      console.log(`Example app listening on port ${confiq.port}`)
+    })
+  }catch(err){
+    console.log(err);
   }
+  
 
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
-  })
+  }
+main()

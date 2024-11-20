@@ -1,10 +1,10 @@
 
-import express, { Application } from 'express'
-// import app from "./app";
+
+import app from "./app";
 import  confiq  from "./app/confiq";
 
 import mongoose from 'mongoose';
-const app :Application = express()
+
 async function main() {
     
   try{

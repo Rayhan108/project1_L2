@@ -1,13 +1,15 @@
 import { Schema, model } from 'mongoose';
 // import validator from 'validator';
 import {
-  Guardian,
-  LocalGuardian,
-  Student,
-  UserName,
+  TGuardian,
+  TLocalGuardian,
+  TStudent,
+  studentMethod,
+  studentModel,
+  TUserName,
 } from './student.interface';
 
-const userNameValidationSchema = new Schema<UserName>({
+const userNameValidationSchema = new Schema<TUserName>({
   firstName: {
     type: String,
     required: [true, 'First name is required'],
@@ -42,7 +44,7 @@ const userNameValidationSchema = new Schema<UserName>({
   },
 });
 
-const guardianValidationSchema = new Schema<Guardian>({
+const guardianValidationSchema = new Schema<TGuardian>({
   fatherName: {
     type: String,
     // required: [true, "Father's name is required"],
@@ -79,7 +81,7 @@ const guardianValidationSchema = new Schema<Guardian>({
   },
 });
 
-const localGuradianSchema = new Schema<LocalGuardian>({
+const localGuradianSchema = new Schema<TLocalGuardian>({
   name: {
     type: String,
     // required: [true, "Local guardian's name is required"],
@@ -106,7 +108,7 @@ const localGuradianSchema = new Schema<LocalGuardian>({
   },
 });
 
-const studentSchema = new Schema<Student>({
+const studentSchema = new Schema<TStudent, studentModel, studentMethod>({
   id: {
     type: String,
     // required: [true, 'Student ID is required'],
@@ -198,5 +200,8 @@ const studentSchema = new Schema<Student>({
     default: 'active',
   },
 });
-
-export const StudentModel = model<Student>('Student', studentSchema);
+studentSchema.methods.isUserExists=async function(id:string){
+  const existingUser = await StudentModel.findOne({id});
+  return existingUser;
+}
+export const StudentModel = model<TStudent,studentModel>('Student', studentSchema);

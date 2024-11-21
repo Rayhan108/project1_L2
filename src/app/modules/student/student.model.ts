@@ -67,20 +67,44 @@ const localGuradianSchema = new Schema<LocalGuardian>({
 });
 
 const studentSchema = new Schema<Student>({
-  id: { type: String },
-  name: userNameSchema,
-  gender: ['male', 'female'],
+  id: { type: String,required: true,unique:true },
+  name:{
+    type: userNameSchema,
+    required:[true,'name is required from 73']
+  },
+  gender:{
+    type:String,
+    enum:{
+      values:['male', 'female'],
+    message:'{VALUE} is not valid'
+    },
+    required:true
+  },
   dateOfBirth: { type: String },
-  email: { type: String, required: true },
+  email: { type: String, required: true,unique:true},
   contactNo: { type: String, required: true },
   emergencyContactNo: { type: String, required: true },
-  bloogGroup: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
+  bloogGroup: {
+    type:String,
+    enum:['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
+  },
   presentAddress: { type: String, required: true },
   permanentAddres: { type: String, required: true },
-  guardian: guardianSchema,
-  localGuardian: localGuradianSchema,
+  guardian: {
+    type:guardianSchema,
+    required:true
+  },
+  localGuardian:{
+    type:localGuradianSchema,
+    required:true
+  },
   profileImg: { type: String },
-  isActive: ['active', 'blocked'],
+  isActive: {
+    type:String,
+    enum:['active', 'blocked'],
+    default:'active'
+    
+  },
 });
 
 export const StudentModel = model<Student>('Student', studentSchema);

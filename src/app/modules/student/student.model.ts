@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import validator from 'validator';
+// import validator from 'validator';
 import {
   Guardian,
   LocalGuardian,
@@ -7,107 +7,118 @@ import {
   UserName,
 } from './student.interface';
 
-const userNameSchema = new Schema<UserName>({
+const userNameValidationSchema = new Schema<UserName>({
   firstName: {
     type: String,
     required: [true, 'First name is required'],
-    trim:true,
-    maxlength:[20,'first name can not be more than 20 charecter'],
-    validate:function(value:string){
-      const firstNameStr=value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
-      return firstNameStr === value;
-    }
+    trim: true,
+    maxlength: [20, 'first name can not be more than 20 charecter'],
+    // validate: function (value: string) {
+    //   const firstNameStr =
+    //     value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+    //   return firstNameStr === value;
+    // },
   },
   middleName: {
     type: String,
-    trim:true,
-    validate:{
-      validator:function(value:string){
-        const firstNameStr=value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
-        return firstNameStr === value;
-      },
-      message:"{VALUE} is not capitalized format"
-    }
+    trim: true,
+    // validate: {
+    //   validator: function (value: string) {
+    //     const firstNameStr =
+    //       value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+    //     return firstNameStr === value;
+    //   },
+    //   message: '{VALUE} is not capitalized format',
+    // },
   },
   lastName: {
     type: String,
     required: [true, 'Last name is required'],
-    trim:true,
-  validate:{
-    validator:(value:string)=>
-      validator.isAlpha(value),
-    message:"{VALUE} is not valid"
-  }
+    trim: true,
+    // validate: {
+    //   validator: (value: string) => validator.isAlpha(value),
+    //   message: '{VALUE} is not valid',
+    // },
   },
 });
 
-const guardianSchema = new Schema<Guardian>({
+const guardianValidationSchema = new Schema<Guardian>({
   fatherName: {
     type: String,
-    required: [true, 'Father\'s name is required'],
-    trim:true,
+    // required: [true, "Father's name is required"],
+    required: true,
+    trim: true,
   },
   fatherOccupation: {
     type: String,
-    required: [true, 'Father\'s occupation is required'],
-    trim:true,
+    required: true,
+    trim: true,
   },
   fatherContactNo: {
     type: String,
-    required: [true, 'Father\'s contact number is required'],
-    trim:true,
+    required: true,
+    trim: true,
   },
   motherName: {
     type: String,
-    required: [true, 'Mother\'s name is required'],
-    trim:true,
+    // required: [true, "Mother's name is required"],
+    required: true,
+    trim: true,
   },
   motherOccupation: {
     type: String,
-    required: [true, 'Mother\'s occupation is required'],
-    trim:true,
+    // required: [true, "Mother's occupation is required"],
+    required: true,
+    trim: true,
   },
   motherContactNo: {
     type: String,
-    required: [true, 'Mother\'s contact number is required'],
-    trim:true,
+    // required: [true, "Mother's contact number is required"],
+    required: true,
+    trim: true,
   },
 });
 
 const localGuradianSchema = new Schema<LocalGuardian>({
   name: {
     type: String,
-    required: [true, 'Local guardian\'s name is required'],
-    trim:true,
+    // required: [true, "Local guardian's name is required"],
+    required: true,
+    trim: true,
   },
   occupation: {
     type: String,
-    required: [true, 'Local guardian\'s occupation is required'],
-    trim:true,
+    // required: [true, "Local guardian's occupation is required"],
+    required: true,
+    trim: true,
   },
   contactNo: {
     type: String,
-    required: [true, 'Local guardian\'s contact number is required'],
-    trim:true,
+    // required: [true, "Local guardian's contact number is required"],
+    required: true,
+    trim: true,
   },
   address: {
     type: String,
-    required: [true, 'Local guardian\'s address is required'],
-    trim:true,
+    // required: [true, "Local guardian's address is required"],
+    required: true,
+    trim: true,
   },
 });
 
 const studentSchema = new Schema<Student>({
   id: {
     type: String,
-    required: [true, 'Student ID is required'],
-    trim:true,
+    // required: [true, 'Student ID is required'],
+    required: true,
+    trim: true,
     unique: true,
   },
   name: {
-    type: userNameSchema,
-    required: [true, 'Name is required'],
-    trim:true,
+    type: userNameValidationSchema,
+    // required: [true, 'Name is required'],
+    required: true,
+    trim: true,
   },
   gender: {
     type: String,
@@ -115,30 +126,33 @@ const studentSchema = new Schema<Student>({
       values: ['male', 'female'],
       message: '{VALUE} is not a valid gender',
     },
-    required: [true, 'Gender is required'],
-    trim:true,
+    // required: [true, 'Gender is required'],
+    required: true,
+    trim: true,
   },
   dateOfBirth: {
     type: String,
   },
   email: {
     type: String,
-    required: [true, 'Email is required'],
+    // required: [true, 'Email is required'],
+    required: true,
     unique: true,
-    trim:true,
-    validate:{
-      validator:(value:string)=>
-        validator.isEmail(value),
-      message:"{VALUE} is not a valid email type"
-    }
+    trim: true,
+    // validate: {
+    //   validator: (value: string) => validator.isEmail(value),
+    //   message: '{VALUE} is not a valid email type',
+    // },
   },
   contactNo: {
     type: String,
-    required: [true, 'Contact number is required'],
+    // required: [true, 'Contact number is required'],
+    required: true,
   },
   emergencyContactNo: {
     type: String,
-    required: [true, 'Emergency contact number is required'],
+    // required: [true, 'Emergency contact number is required'],
+    required: true,
   },
   bloogGroup: {
     type: String,
@@ -149,23 +163,27 @@ const studentSchema = new Schema<Student>({
   },
   presentAddress: {
     type: String,
-    required: [true, 'Present address is required'],
-    trim:true,
+    // required: [true, 'Present address is required'],
+    required: true,
+    trim: true,
   },
   permanentAddres: {
     type: String,
-    required: [true, 'Permanent address is required'],
-    trim:true,
+    // required: [true, 'Permanent address is required'],
+    required: true,
+    trim: true,
   },
   guardian: {
-    type: guardianSchema,
-    required: [true, 'Guardian details are required'],
-    trim:true,
+    type: guardianValidationSchema,
+    // required: [true, 'Guardian details are required'],
+    required: true,
+    trim: true,
   },
   localGuardian: {
     type: localGuradianSchema,
-    required: [true, 'Local guardian details are required'],
-    trim:true,
+    // required: [true, 'Local guardian details are required'],
+    required: true,
+    trim: true,
   },
   profileImg: {
     type: String,
@@ -176,7 +194,7 @@ const studentSchema = new Schema<Student>({
       values: ['active', 'blocked'],
       message: '{VALUE} is not a valid status',
     },
-    trim:true,
+    trim: true,
     default: 'active',
   },
 });

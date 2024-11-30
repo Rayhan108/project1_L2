@@ -1,8 +1,8 @@
 // import studentValidationSchema from "../student/student.joi.validation";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { UserServices } from "./user.services";
 
-const createStudent = async (req: Request, res: Response) => {
+const createStudent = async (req: Request, res: Response,next:NextFunction) => {
     try {
  
   
@@ -20,12 +20,8 @@ const createStudent = async (req: Request, res: Response) => {
         message: 'Student is created succesfully',
         data: result,
       });
-    } catch (err:any) {
-      res.json({
-        success: false,
-        message: err.message || 'Something went wrong',
-        error: err,
-      });
+    } catch (err) {
+    next(err)
     }
   };
   export const UsersController={

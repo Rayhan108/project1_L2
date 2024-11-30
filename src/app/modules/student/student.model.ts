@@ -116,6 +116,12 @@ const studentSchema = new Schema<TStudent, studentModel, studentMethod>({
     trim: true,
     unique: true,
   },
+  user:{
+    type: Schema.Types.ObjectId,
+    required:[true,'User Id is required'],
+    unique:true,
+    ref:'UserModel'
+  },
   name: {
     type: userNameValidationSchema,
     // required: [true, 'Name is required'],
@@ -190,15 +196,7 @@ const studentSchema = new Schema<TStudent, studentModel, studentMethod>({
   profileImg: {
     type: String,
   },
-  isActive: {
-    type: String,
-    enum: {
-      values: ['active', 'blocked'],
-      message: '{VALUE} is not a valid status',
-    },
-    trim: true,
-    default: 'active',
-  },
+  
 });
 studentSchema.methods.isUserExists=async function(id:string){
   const existingUser = await StudentModel.findOne({id});

@@ -1,29 +1,35 @@
-import { model, Schema } from "mongoose";
-import { TUser } from "./user.interface";
+import { model, Schema } from 'mongoose';
+import { TUser } from './user.interface';
 
-const userSchema = new Schema<TUser>({
-    id:{
-        type:String,
-        require:true
+const userSchema = new Schema<TUser>(
+  {
+    id: {
+      type: String,
+      required: true,
     },
-    password:{
-        tyoe:String,
-        require:true
+    password: {
+      type: String,
+      required: true,
     },
-    needsPasswordChange:{
-        tyoe:Boolean,
-        default:true
+    needsPasswordChange: {
+      type: Boolean,
+      default: true,
     },
-    role:{
-        type:String,
-        enum:['student','facilty','admin']
+    role: {
+      type: String,
+      enum: ['student', 'facilty', 'admin'],
     },
-    status:{
-        type:String,
-        enum:['in-progress','blocked']
+    status: {
+      type: String,
+      enum: ['in-progress','blocked'],
+      default:'in-progress'
     },
-}
-timeStamp:true
-)
+    isDeleted:{
+        type:Boolean,
+        default:false
+    }
+  },
+  { timestamps: true },
+);
 
-export const UserModel =model<TUser>('User',userSchema)
+export const UserModel = model<TUser>('User', userSchema);

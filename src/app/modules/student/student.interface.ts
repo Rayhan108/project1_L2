@@ -27,7 +27,7 @@ export type TStudent = {
   user:Types.ObjectId
   name: TUserName;
   gender: 'male' | 'female';
-  dateOfBirth?: string;
+  dateOfBirth?: Date;
   email: string;
   contactNo: string;
   emergencyContactNo: string;
@@ -41,6 +41,7 @@ export type TStudent = {
 };
 
 export type studentMethod = {
+  // eslint-disable-next-line no-unused-vars
   isUserExists(id: string): Promise<TStudent | null>;
 };
 export type studentModel = Model<

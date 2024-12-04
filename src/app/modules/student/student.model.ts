@@ -196,6 +196,10 @@ const studentSchema = new Schema<TStudent, studentModel, studentMethod>({
   profileImg: {
     type: String,
   },
+  admissionSemister: {
+    type: Schema.Types.ObjectId,
+    ref:'AcademicSemisterModel'
+  },
   
 });
 studentSchema.methods.isUserExists=async function(id:string){

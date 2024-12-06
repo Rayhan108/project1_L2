@@ -4,6 +4,6 @@ password:string,
 needsPasswordChange?:boolean;
 role: 'student' | 'faculty' | 'admin';
 status:'in-progress' | 'blocked';
-isDeleted?:boolean;
+isDeleted:boolean;
 
 }

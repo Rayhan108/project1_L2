@@ -198,7 +198,11 @@ const studentSchema = new Schema<TStudent, studentModel, studentMethod>({
   },
   admissionSemister: {
     type: Schema.Types.ObjectId,
-    ref:'AcademicSemisterModel'
+    ref:'AcademicSemister'
+  },
+  academicDepartment: {
+    type: Schema.Types.ObjectId,
+    ref: 'AcademicDepartment',
   },
   
 });

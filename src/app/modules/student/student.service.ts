@@ -4,7 +4,7 @@ import AppError from '../../errors/AppError';
 import httpStatus from 'http-status';
 import { UserModel } from '../user/user.model';
 import { TStudent } from './student.interface';
-import { query } from 'express';
+
 
 
 
@@ -22,7 +22,7 @@ const getAllStudentsFromDB = async (query: Record<string,unknown>) => {
     }))
   }) 
   //filtering
-  const excludeFields = ['searchTerm','sort','limit'];
+  const excludeFields = ['searchTerm','sort','limit','page','fields'];
   excludeFields.forEach((el)=>{delete queryObj[el]});
   const filterQuery = searchQuery.find(queryObj).populate('admissionSemister')
   .populate({
@@ -37,13 +37,24 @@ sort = query.sort as string;
 }
 
 const sortQuery =filterQuery.sort(sort);
-
-let limit =10;
+let page =1;
+let limit =1;
+let skip =0;
 if(query.limit){
-  limit = query.limit as number;
+  limit =Number(query.limit) ;
 }
-const limitQuery = await sortQuery.limit(limit);
-  return limitQuery;
+if(query.page){
+  page =Number(query.page) ;
+  skip = (page-1)*limit;
+}
+const paginateQuery = sortQuery.skip(skip);
+const limitQuery =  paginateQuery.limit(limit);
+let fields='-__v';
+if(query.fields){
+  fields = (query.fields as string).split(',').join(' ')
+}
+const filedsQuery =await limitQuery.select(fields)
+  return filedsQuery;
 };
 const getSingleStudentFromDB = async (id: string) => {
   const result = await StudentModel.findOne({ id }).populate('admissionSemister').populate({
@@ -52,6 +63,7 @@ const getSingleStudentFromDB = async (id: string) => {
       path:'academicFaculty'
     }
   });
+
   return result;
 };
 

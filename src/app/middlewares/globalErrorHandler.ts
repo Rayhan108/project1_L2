@@ -13,8 +13,8 @@ import handleZodError from '../errors/handleZodError';
 import confiq from '../confiq';
 
 const globalErrorHandler: ErrorRequestHandler = (err, req, res, next): void => {
-  let statusCode = err.statusCode || 500;
-  let message = err.message || 'Something went wrong!';
+  let statusCode =  500;
+  let message =  'Something went wrong!';
 
   let errorSources: TErrorSources = [
     {

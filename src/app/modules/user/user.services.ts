@@ -54,11 +54,12 @@ throw new AppError(httpStatus.BAD_REQUEST,"Failed to create user")
       return newStudent;
     
 
-  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-  }catch(err){
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  }catch(err : any){
 await session.abortTransaction();
 await session.endSession();
-throw new Error('Failed to create student');
+throw new Error(err);
   }
   
 };

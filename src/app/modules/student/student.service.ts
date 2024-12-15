@@ -135,7 +135,7 @@ const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
 
 
 const getSingleStudentFromDB = async (id: string) => {
-  const result = await StudentModel.findOne({ id }).populate('admissionSemister').populate({
+  const result = await StudentModel.findById(id).populate('admissionSemister').populate({
     path:'academicDepartment',
     populate:{
       path:'academicFaculty'
@@ -148,33 +148,44 @@ const getSingleStudentFromDB = async (id: string) => {
 
 const deleteStudentFromDB = async (id: string) => {
   const session = await mongoose.startSession();
-  try{
- session.startTransaction();
- //transaction -1
- const deletedStudent = await StudentModel.findOneAndUpdate({ id }, { isDeleted: true },{new:true,session});
-if(!deletedStudent){
-  throw new AppError(httpStatus.BAD_REQUEST,"Failed to delete student")
-}
- //transaction -2
-const deletedUser = await UserModel.findOneAndUpdate({ id }, { isDeleted: true },{new:true,session});
-if(!deletedUser){
-  throw new AppError(httpStatus.BAD_REQUEST,"Failed to delete user")
-}
 
+  try {
+    session.startTransaction();
 
+    const deletedStudent = await StudentModel.findByIdAndUpdate(
+      id,
+      { isDeleted: true },
+      { new: true, session },
+    );
 
-await session.commitTransaction();
- await session.endSession();
- return deletedStudent;
+    if (!deletedStudent) {
+      throw new AppError(httpStatus.BAD_REQUEST, 'Failed to delete student');
+    }
+
+    // get user _id from deletedStudent
+    const userId = deletedStudent.user;
+
+    const deletedUser = await UserModel.findByIdAndUpdate(
+      userId,
+      { isDeleted: true },
+      { new: true, session },
+    );
+
+    if (!deletedUser) {
+      throw new AppError(httpStatus.BAD_REQUEST, 'Failed to delete user');
+    }
+
+    await session.commitTransaction();
+    await session.endSession();
+
+    return deletedStudent;
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-  }catch(err){
+  } catch (err) {
     await session.abortTransaction();
     await session.endSession();
-    throw new Error("Student deleted unsuccessfull")
+    throw new Error('Failed to delete student');
   }
-
 };
-
 const updateStudentIntoDB = async (id: string, payload: Partial<TStudent>) => {
   const { name, guardian, localGuardian, ...remainingStudentData } = payload;
 
@@ -213,7 +224,7 @@ const updateStudentIntoDB = async (id: string, payload: Partial<TStudent>) => {
 
   // console.log(modifiedUpdatedData);
 
-  const result = await StudentModel.findOneAndUpdate({ id }, modifiedUpdatedData, {
+  const result = await StudentModel.findByIdAndUpdate(id, modifiedUpdatedData, {
     new: true,
     runValidators: true,
   });

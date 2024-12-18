@@ -1,10 +1,11 @@
 import httpStatus from 'http-status';
 import mongoose from 'mongoose';
 import AppError from '../../errors/AppError';
-import { TCourse, TCoursefaculty } from './Course.interface';
+
 import { CourseFacultyModel, CourseModel } from './course.model';
 import QueryBuilder from '../../builder/queryBuilder';
 import { CourseSearchableFields } from './course.constant';
+import { TCourse, TCoursefaculty } from './course.interface';
 
 
 const createCourseIntoDB = async (payload: TCourse) => {
@@ -14,8 +15,8 @@ const createCourseIntoDB = async (payload: TCourse) => {
 
 const getAllCoursesFromDB = async (query: Record<string, unknown>) => {
   const courseQuery = new QueryBuilder(
-    CourseModel.find(),
-    // .populate('preRequisiteCourses.course'),
+    CourseModel.find()
+    .populate('preRequisiteCourses.course'),
     query,
   )
     .search(CourseSearchableFields)
@@ -153,6 +154,7 @@ const removeFacultiesFromCourseFromDB = async (
   id: string,
   payload: Partial<TCoursefaculty>,
 ) => {
+
   const result = await CourseFacultyModel.findByIdAndUpdate(
     id,
     {

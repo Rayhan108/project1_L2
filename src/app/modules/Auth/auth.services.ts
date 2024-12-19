@@ -2,10 +2,11 @@ import httpStatus from 'http-status';
 import AppError from '../../errors/AppError';
 import { UserModel } from '../user/user.model';
 import { TLoginUser } from './auth.interface';
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import  { JwtPayload } from 'jsonwebtoken';
 
 import confiq from '../../confiq';
 import bcrypt from 'bcrypt'
+import { createToken } from './auth.utils';
 
 const loginUser = async (payload: TLoginUser) => {
   //check if the user is exists
@@ -33,22 +34,22 @@ const loginUser = async (payload: TLoginUser) => {
     userId: user.id,
     role: user.role,
   };
-  const accessToken = jwt.sign(jwtPayload, confiq.jwt_access_secret as string, {
-    expiresIn: '10d',
-  });
-  //   const accessToken = createToken(
-  //     jwtPayload,
-  //     confiq.jwt_access_secret as string,
-  //     confiq.jwt_access_expires_in as string,
-  //   );
+//   const accessToken = jwt.sign(jwtPayload, confiq.jwt_access_secret as string, {
+//     expiresIn: '10d',
+//   });
+    const accessToken = createToken(
+      jwtPayload,
+      confiq.jwt_access_secret as string,
+      confiq.jwt_access_expires_in as string,
+    );
 
-  //   const refreshToken = createToken(
-  //     jwtPayload,
-  //     confiq.jwt_refresh_secret as string,
-  //     confiq.jwt_refresh_expires_in as string,
-  //   );
+    const refreshToken = createToken(
+      jwtPayload,
+      confiq.jwt_refresh_secret as string,
+      confiq.jwt_refresh_expires_in as string,
+    );
 
-  return { accessToken, needsPasswordChange: user?.needsPasswordChange };
+  return { accessToken,refreshToken,needsPasswordChange: user?.needsPasswordChange };
 };
 
 const changePassword = async (

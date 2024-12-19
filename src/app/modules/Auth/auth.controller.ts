@@ -3,17 +3,26 @@ import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { AuthServices } from './auth.services';
+import confiq from '../../confiq';
 
 
 
 const loginUser = catchAsync(async (req, res) => {
   const result = await AuthServices.loginUser(req.body);
+  const { refreshToken, accessToken, needsPasswordChange } = result;
 
+  res.cookie('refreshToken', refreshToken, {
+    secure: confiq.NODE_ENV === 'production',
+    httpOnly: true,
+  });
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'User is logged in succesfully!',
-    data:result
+    data: {
+        accessToken,
+        needsPasswordChange,
+      }
   });
 });
 

@@ -20,6 +20,10 @@ export interface User extends Model<TUser>{
   isPasswordMatched(
     plainTextPassword: string,
     hashedPassword: string,
-  ): Promise<boolean>;
+  ): Promise<boolean>,
+  isJWTIssuedBeforePasswordChanged(
+    passwordChangedTimestamp: Date,
+    jwtIssuedTimestamp: number,
+  ): boolean;
 }
 export type TUserRole = keyof typeof USER_ROLE;

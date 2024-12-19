@@ -35,6 +35,16 @@ const {role,userId,iat}=decoded
     throw new AppError(httpStatus.FORBIDDEN, 'This user is blocked!');
   }
 
+  if (
+    user.passwordChangedAt &&
+    UserModel.isJWTIssuedBeforePasswordChanged(
+      user.passwordChangedAt,
+      iat as number,
+    )
+  ) {
+    throw new AppError(httpStatus.UNAUTHORIZED, 'You are not authorized !');
+  }
+
 
       if(requireRoles && !requireRoles.includes(role)){
         throw new AppError(httpStatus.UNAUTHORIZED,"you are not authorized")

@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { Model } from "mongoose";
+import { USER_ROLE } from "./user.constant";
 
 export interface TUser{
 id:string;
@@ -20,3 +21,4 @@ export interface User extends Model<TUser>{
     hashedPassword: string,
   ): Promise<boolean>;
 }
+export type TUserRole = keyof typeof USER_ROLE;

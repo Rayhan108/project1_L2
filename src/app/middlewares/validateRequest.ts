@@ -1,17 +1,15 @@
 import { AnyZodObject } from "zod";
 import { NextFunction, Request, Response } from 'express';
+import catchAsync from "../utils/catchAsync";
 const validateRequest = (schema:AnyZodObject)=>{
-    return async(req:Request,res:Response,next:NextFunction)=>{
+    return catchAsync(async(req:Request,res:Response,next:NextFunction)=>{
   
-     try{
-   //validation
-   await schema.parseAsync({
-    body:req.body
-})
-  next();
-     }catch(err){
-        next(err)
-     }
-    }
+      //validation
+      await schema.parseAsync({
+       body:req.body
+   })
+     next();
+    
+       })
 }
 export default validateRequest

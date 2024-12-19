@@ -16,7 +16,7 @@ const createOfferedCourse = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
-
+ // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 const getAllOfferedCourses = catchAsync(async (req: Request, res: Response) => {
     // const result = sendResponse(res, {
     //   statusCode: httpStatus.OK,
@@ -27,7 +27,9 @@ const getAllOfferedCourses = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getSingleOfferedCourses = catchAsync(
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   async (req: Request, res: Response) => {
+    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     const { id } = req.params;
       // const result =
       // sendResponse(res, {

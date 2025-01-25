@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import confiq from '../../confiq';
+
 import httpStatus from 'http-status';
 import { AcademicSemisterModel } from '../academicSemister/academicSemister.model';
 import { TStudent } from '../student/student.interface';
@@ -13,13 +13,14 @@ import { TFaculty } from '../Faculty/faculty.interface';
 import { AcademicDepartmentModel } from '../academicDepartment/academicDepartment.model';
 import { FacultyModel } from '../Faculty/faculty.model';
 import { AdminModel } from '../admin/admin.model';
+import confiq from '../../confiq';
 
 
 const createStudentIntoDB = async (password: string, payload: TStudent) => {
   //create a user object
   const userData: Partial<TUser> = {};
 
-  userData.password = password || (confiq.default_pass as string);
+  userData.password = password || (confiq.default_password as string);
 
   //set user role
   userData.role = 'student';
@@ -74,7 +75,7 @@ const createFacultyIntoDB = async (password: string, payload: TFaculty) => {
   const userData: Partial<TUser> = {};
 
   //if password is not given , use deafult password
-  userData.password = password || (confiq.default_pass as string);
+  userData.password = password || (confiq.default_password as string);
 
   //set student role
   userData.role = 'faculty';
@@ -131,7 +132,7 @@ const createAdminIntoDB = async (password: string, payload: TFaculty) => {
   const userData: Partial<TUser> = {};
 
   //if password is not given , use deafult password
-  userData.password = password || (confiq.default_pass as string);
+  userData.password = password || (confiq.default_password as string);
 
   //set student role
   userData.role = 'admin';

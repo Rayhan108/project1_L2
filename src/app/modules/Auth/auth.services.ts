@@ -89,6 +89,7 @@ const newHashedPassword =await bcrypt.hash(payload?.newPassword,Number(confiq.bc
 });
 
 };
+
 const refreshToken = async (token: string) => {
     // checking if the given token is valid
     const decoded = jwt.verify(
@@ -140,6 +141,7 @@ const refreshToken = async (token: string) => {
       accessToken,
     };
   };
+  
 export const AuthServices = {
   loginUser,
   changePassword,

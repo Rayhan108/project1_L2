@@ -16,9 +16,16 @@ const auth = (...requireRoles:TUserRole[])=>{
     throw new AppError(httpStatus.UNAUTHORIZED,"you are not authorized")
   }
 
-  //check if the token is valid
-  const decoded = jwt.verify(token,confiq.jwt_access_secret as string)as JwtPayload
+  //check if the token is 
+  let decoded;
+  try{
 
+    decoded = jwt.verify(token,confiq.jwt_access_secret as string)as JwtPayload
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  }catch(err){
+    throw new AppError(httpStatus.UNAUTHORIZED,"unauthorized")
+  }
+// console.log(decoded);
 const {role,userId,iat}=decoded
   const user = await UserModel.isUserExistsByCustomId(userId);
   if (!user) {

@@ -41,6 +41,7 @@ const createAcademicSemesterIntoDB = async (payload: TAcademicSemester) => {
     };
   };
   
+  
   const getSingleAcademicSemesterFromDB = async (id: string) => {
     const result = await AcademicSemisterModel.findById(id);
     return result;

@@ -19,7 +19,9 @@ router.post(
   auth(USER_ROLE.superAdmin, USER_ROLE.admin),
   upload.single('file'),
   (req: Request, res: Response, next: NextFunction) => {
+    // console.log("something");
     req.body = JSON.parse(req.body.data);
+    // console.log(req.body);
     next();
   },
   validateRequest(createStudentValidationSchema),
@@ -32,6 +34,7 @@ router.post(
   upload.single('file'),
   (req: Request, res: Response, next: NextFunction) => {
     req.body = JSON.parse(req.body.data);
+    console.log(req.body);
     next();
   },
   validateRequest(createFacultyValidationSchema),

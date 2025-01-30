@@ -175,7 +175,7 @@ const studentSchema = new Schema<TStudent, studentModel, studentMethod>({
     required: true,
     trim: true,
   },
-  permanentAddres: {
+  permanentAddress: {
     type: String,
     // required: [true, 'Permanent address is required'],
     required: true,

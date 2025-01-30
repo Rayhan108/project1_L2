@@ -21,6 +21,7 @@ import { TAdmin } from '../admin/admin.interface';
 
 
 
+
 const createStudentIntoDB = async (
   file: any,
   password: string,
@@ -28,7 +29,7 @@ const createStudentIntoDB = async (
 ) => {
   // create a user object
   const userData: Partial<TUser> = {};
-
+// console.log(payload);
   //if password is not given , use default password
   userData.password = password || (confiq.default_password as string);
 
@@ -66,7 +67,7 @@ const createStudentIntoDB = async (
     if (file) {
       const imageName = `${userData.id}${payload?.name?.firstName}`;
       const path = file?.path;
-
+// console.log(path);
       //send image to cloudinary
       const { secure_url } = await sendImageToCloudinary(imageName, path);
       payload.profileImg = secure_url as string;
@@ -100,6 +101,7 @@ const createStudentIntoDB = async (
     throw new Error(err);
   }
 };
+
 
 const createFacultyIntoDB = async (
   file: any,

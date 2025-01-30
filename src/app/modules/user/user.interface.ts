@@ -1,16 +1,15 @@
 /* eslint-disable no-unused-vars */
 import { Model } from "mongoose";
 import { USER_ROLE } from "./user.constant";
-
-export interface TUser{
-id:string;
-password:string,
-needsPasswordChange?:boolean;
-passwordChangedAt?:Date;
-role: 'student' | 'faculty' | 'admin';
-status:'in-progress' | 'blocked';
-isDeleted:boolean;
-
+export interface TUser {
+  id: string;
+  email: string;
+  password: string;
+  needsPasswordChange: boolean;
+  passwordChangedAt?: Date;
+  role: 'superAdmin' | 'admin' | 'student' | 'faculty';
+  status: 'in-progress' | 'blocked';
+  isDeleted: boolean;
 }
 export interface User extends Model<TUser>{
     // myStaticMethod:number;
